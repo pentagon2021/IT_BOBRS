@@ -1,0 +1,4532 @@
+global_config {
+  default_context {
+    array_class: "CpuCachedArray"
+    backends: "cpu:float"
+  }
+}
+training_config {
+  max_epoch: 10
+  iter_per_epoch: 470
+  save_best: true
+  monitor_interval: 5
+}
+network {
+  name: "Main"
+  batch_size: 16
+  repeat_info {
+    id: "RepeatStart"
+    times: 3
+  }
+  variable {
+    name: "Input"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Input_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Input_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Input_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 8 }
+  }
+  variable {
+    name: "Normalize/Beta"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Normalize/Beta_2"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Normalize_2/Beta"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Normalize_2/Beta_2"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Embed/embed/W"
+    type: "Parameter"
+    shape: { dim: 16384 dim: 256 }
+    initializer {
+      type: "Normal"
+      multiplier: 0.0625
+    }
+  }
+  variable {
+    name: "Query{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 272 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Query{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Key{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 272 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Key{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Value{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 256 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Value{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_2{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 256 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_2{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_3{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 256 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_3{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution/conv/W"
+    type: "Parameter"
+    shape: { dim: 16384 dim: 256 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution/conv/b"
+    type: "Parameter"
+    shape: { dim: 16384 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Slice"
+    type: "Buffer"
+    shape: { dim:-1 dim: 255 }
+  }
+  variable {
+    name: "RPowScalar"
+    type: "Buffer"
+    shape: { dim:-1 dim: 8 }
+  }
+  variable {
+    name: "Embed"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Reshape"
+    type: "Buffer"
+    shape: { dim:-1 dim: 255 dim: 1 }
+  }
+  variable {
+    name: "Identity"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Identity_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_8"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 8 }
+  }
+  variable {
+    name: "MulScalar"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_6"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 1 }
+  }
+  variable {
+    name: "Reshape_9"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 1 }
+  }
+  variable {
+    name: "Broadcast"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Broadcast_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Broadcast_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Greater_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Mul2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Sin"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Cos"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Concatenate"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 16 }
+  }
+  variable {
+    name: "Concatenate_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 272 }
+  }
+  variable {
+    name: "Transpose_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "RepeatStart"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Reshape_5"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Query"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Key"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Slice_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "Reshape_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "Value"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Transpose_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 32 }
+  }
+  variable {
+    name: "Reshape_4"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "BatchMatmul"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "MulScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Max"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 1 dim: 1 }
+  }
+  variable {
+    name: "Sub2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Exp"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Mul2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Sum_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "AddScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Div2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Dropout_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "BatchMatmul_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "Reshape_14"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Pad"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Add2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Mean"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Sub2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/PowScalar"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Mean_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize/PowScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Div2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Mul2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Add2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Reshape_10"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Slice_4"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Convolution_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "ReLU_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Convolution_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_11"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Pad_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Add2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Mean"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Sub2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/PowScalar"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Mean_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/PowScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Div2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Mul2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Add2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "RepeatEnd"
+    type: "Buffer"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Slice_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "ReLU_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Dropout"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Convolution"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16384 dim: 256 }
+  }
+  variable {
+    name: "Transpose_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 16384 }
+  }
+  variable {
+    name: "Slice_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 255 dim: 16384 }
+  }
+  variable {
+    name: "SoftmaxCrossEntropy"
+    type: "Buffer"
+    shape: { dim:-1 dim: 255 dim: 1 }
+  }
+  function {
+    name: "Slice"
+    type: "Slice"
+    input: "Input_2"
+    output: "Slice"
+    slice_param {
+      start: 1
+      stop: 256
+      step: 1
+    }
+  }
+  function {
+    name: "RPowScalar"
+    type: "RPowScalar"
+    input: "Input_3"
+    output: "RPowScalar"
+    r_pow_scalar_param {
+      val: 2
+    }
+  }
+  function {
+    name: "Embed"
+    type: "Embed"
+    input: "Input"
+    input: "Embed/embed/W"
+    output: "Embed"
+  }
+  function {
+    name: "Reshape"
+    type: "Reshape"
+    input: "Slice"
+    output: "Reshape"
+    reshape_param {
+      shape: { dim: -1 dim: 255 dim: 1 }
+    }
+  }
+  function {
+    name: "Identity"
+    type: "Identity"
+    input: "Input_4"
+    output: "Identity"
+  }
+  function {
+    name: "Identity_2"
+    type: "Identity"
+    input: "Input_4"
+    output: "Identity_2"
+  }
+  function {
+    name: "Reshape_8"
+    type: "Reshape"
+    input: "RPowScalar"
+    output: "Reshape_8"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 8 }
+    }
+  }
+  function {
+    name: "MulScalar"
+    type: "MulScalar"
+    input: "Input_4"
+    output: "MulScalar"
+    mul_scalar_param {
+      val: 0.02454369260617026
+    }
+  }
+  function {
+    name: "Reshape_6"
+    type: "Reshape"
+    input: "Identity"
+    output: "Reshape_6"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Reshape_7"
+    type: "Reshape"
+    input: "Identity_2"
+    output: "Reshape_7"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 256 dim: 1 }
+    }
+  }
+  function {
+    name: "Reshape_9"
+    type: "Reshape"
+    input: "MulScalar"
+    output: "Reshape_9"
+    reshape_param {
+      shape: { dim: -1 dim: 256 dim: 1 }
+    }
+  }
+  function {
+    name: "Broadcast"
+    type: "Broadcast"
+    input: "Reshape_7"
+    output: "Broadcast"
+    broadcast_param {
+      shape: { dim: -1 dim: 1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Broadcast_2"
+    type: "Broadcast"
+    input: "Reshape_6"
+    output: "Broadcast_2"
+    broadcast_param {
+      shape: { dim: -1 dim: 1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Broadcast_3"
+    type: "Broadcast"
+    input: "Reshape_9"
+    output: "Broadcast_3"
+    broadcast_param {
+      shape: { dim: -1 dim: 256 dim: 8 }
+    }
+  }
+  function {
+    name: "Greater_2"
+    type: "Greater"
+    input: "Broadcast_2"
+    input: "Broadcast"
+    output: "Greater_2"
+  }
+  function {
+    name: "Mul2"
+    type: "Mul2"
+    input: "Broadcast_3"
+    input: "Reshape_8"
+    output: "Mul2"
+  }
+  function {
+    name: "Sin"
+    type: "Sin"
+    input: "Mul2"
+    output: "Sin"
+  }
+  function {
+    name: "Cos"
+    type: "Cos"
+    input: "Mul2"
+    output: "Cos"
+  }
+  function {
+    name: "Concatenate"
+    type: "Concatenate"
+    input: "Sin"
+    input: "Cos"
+    output: "Concatenate"
+    concatenate_param {
+      axis: 2
+    }
+  }
+  function {
+    name: "Concatenate_2"
+    type: "Concatenate"
+    input: "Embed"
+    input: "Concatenate"
+    output: "Concatenate_2"
+    concatenate_param {
+      axis: 2
+    }
+  }
+  function {
+    name: "Transpose_4"
+    type: "Transpose"
+    input: "Concatenate_2"
+    output: "Transpose_4"
+    transpose_param {
+      axes: 0
+      axes: 2
+      axes: 1
+    }
+  }
+  function {
+    name: "RepeatStart"
+    type: "RepeatStart"
+    repeat_id: "RepeatStart"
+    input: "Transpose_4"
+    input: "Normalize_2/Add2_3"
+    output: "RepeatStart"
+    repeat_param {
+      repeat_id: "RepeatStart"
+    }
+  }
+  function {
+    name: "Reshape_5"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "RepeatStart"
+    output: "Reshape_5"
+    reshape_param {
+      shape: { dim: -1 dim: 272 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Query"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Reshape_5"
+    input: "Query{RepeatStart}/conv/W"
+    input: "Query{RepeatStart}/conv/b"
+    output: "Query"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Key"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Reshape_5"
+    input: "Key{RepeatStart}/conv/W"
+    input: "Key{RepeatStart}/conv/b"
+    output: "Key"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Slice_3"
+    type: "Slice"
+    repeat_id: "RepeatStart"
+    input: "Reshape_5"
+    output: "Slice_3"
+    slice_param {
+      start: 0
+      start: 0
+      start: 0
+      stop: 256
+      stop: 1
+      stop: 256
+      step: 1
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "Reshape_2"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Query"
+    output: "Reshape_2"
+    reshape_param {
+      shape: { dim: -1 dim: 8 dim: 32 dim: 256 }
+    }
+  }
+  function {
+    name: "Reshape_3"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Key"
+    output: "Reshape_3"
+    reshape_param {
+      shape: { dim: -1 dim: 8 dim: 32 dim: 256 }
+    }
+  }
+  function {
+    name: "Value"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Slice_3"
+    input: "Value{RepeatStart}/conv/W"
+    input: "Value{RepeatStart}/conv/b"
+    output: "Value"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Transpose_3"
+    type: "Transpose"
+    repeat_id: "RepeatStart"
+    input: "Reshape_2"
+    output: "Transpose_3"
+    transpose_param {
+      axes: 0
+      axes: 1
+      axes: 3
+      axes: 2
+    }
+  }
+  function {
+    name: "Reshape_4"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Value"
+    output: "Reshape_4"
+    reshape_param {
+      shape: { dim: -1 dim: 8 dim: 32 dim: 256 }
+    }
+  }
+  function {
+    name: "BatchMatmul"
+    type: "BatchMatmul"
+    repeat_id: "RepeatStart"
+    input: "Transpose_3"
+    input: "Reshape_3"
+    output: "BatchMatmul"
+  }
+  function {
+    name: "MulScalar_2"
+    type: "MulScalar"
+    repeat_id: "RepeatStart"
+    input: "BatchMatmul"
+    output: "MulScalar_2"
+    mul_scalar_param {
+      val: 0.25
+    }
+  }
+  function {
+    name: "Max"
+    type: "Max"
+    repeat_id: "RepeatStart"
+    input: "MulScalar_2"
+    output: "Max"
+    max_param {
+      axes: 2
+      axes: 3
+      keep_dims: true
+      with_index: false
+      only_index: false
+    }
+  }
+  function {
+    name: "Sub2"
+    type: "Sub2"
+    repeat_id: "RepeatStart"
+    input: "MulScalar_2"
+    input: "Max"
+    output: "Sub2"
+  }
+  function {
+    name: "Exp"
+    type: "Exp"
+    repeat_id: "RepeatStart"
+    input: "Sub2"
+    output: "Exp"
+  }
+  function {
+    name: "Mul2_2"
+    type: "Mul2"
+    repeat_id: "RepeatStart"
+    input: "Exp"
+    input: "Greater_2"
+    output: "Mul2_2"
+  }
+  function {
+    name: "Sum_2"
+    type: "Sum"
+    repeat_id: "RepeatStart"
+    input: "Mul2_2"
+    output: "Sum_2"
+    sum_param {
+      axes: 2
+      keep_dims: true
+    }
+  }
+  function {
+    name: "AddScalar_2"
+    type: "AddScalar"
+    repeat_id: "RepeatStart"
+    input: "Sum_2"
+    output: "AddScalar_2"
+    add_scalar_param {
+      val: 1
+    }
+  }
+  function {
+    name: "Div2"
+    type: "Div2"
+    repeat_id: "RepeatStart"
+    input: "Mul2_2"
+    input: "AddScalar_2"
+    output: "Div2"
+  }
+  function {
+    name: "Dropout_2"
+    type: "Dropout"
+    repeat_id: "RepeatStart"
+    input: "Div2"
+    output: "Dropout_2"
+    dropout_param {
+      p: 0.5
+      seed: -1
+    }
+  }
+  function {
+    name: "BatchMatmul_2"
+    type: "BatchMatmul"
+    repeat_id: "RepeatStart"
+    input: "Reshape_4"
+    input: "Dropout_2"
+    output: "BatchMatmul_2"
+  }
+  function {
+    name: "Reshape_14"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "BatchMatmul_2"
+    output: "Reshape_14"
+    reshape_param {
+      shape: { dim: -1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Pad"
+    type: "Pad"
+    repeat_id: "RepeatStart"
+    input: "Reshape_14"
+    output: "Pad"
+    pad_param {
+      pad_width: 0
+      pad_width: 16
+      pad_width: 0
+      pad_width: 0
+      mode: "constant"
+      constant_value: 0
+    }
+  }
+  function {
+    name: "Add2"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "RepeatStart"
+    input: "Pad"
+    output: "Add2"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "Normalize/Mean"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Add2"
+    output: "Normalize/Mean"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize/Sub2_2"
+    type: "Sub2"
+    repeat_id: "RepeatStart"
+    input: "Add2"
+    input: "Normalize/Mean"
+    output: "Normalize/Sub2_2"
+  }
+  function {
+    name: "Normalize/PowScalar"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Sub2_2"
+    output: "Normalize/PowScalar"
+    pow_scalar_param {
+      val: 2
+    }
+  }
+  function {
+    name: "Normalize/Mean_2"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Normalize/PowScalar"
+    output: "Normalize/Mean_2"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize/PowScalar_2"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Mean_2"
+    output: "Normalize/PowScalar_2"
+    pow_scalar_param {
+      val: 0.5
+    }
+  }
+  function {
+    name: "Normalize/Div2_2"
+    type: "Div2"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Sub2_2"
+    input: "Normalize/PowScalar_2"
+    output: "Normalize/Div2_2"
+  }
+  function {
+    name: "Normalize/Mul2_3"
+    type: "Mul2"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Div2_2"
+    input: "Normalize/Beta"
+    output: "Normalize/Mul2_3"
+  }
+  function {
+    name: "Normalize/Add2_3"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Mul2_3"
+    input: "Normalize/Beta_2"
+    output: "Normalize/Add2_3"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "Reshape_10"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Add2_3"
+    output: "Reshape_10"
+    reshape_param {
+      shape: { dim: -1 dim: 272 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Slice_4"
+    type: "Slice"
+    repeat_id: "RepeatStart"
+    input: "Reshape_10"
+    output: "Slice_4"
+    slice_param {
+      start: 0
+      start: 0
+      start: 0
+      stop: 256
+      stop: 1
+      stop: 256
+      step: 1
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "Convolution_2"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Slice_4"
+    input: "Convolution_2{RepeatStart}/conv/W"
+    input: "Convolution_2{RepeatStart}/conv/b"
+    output: "Convolution_2"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "ReLU_2"
+    type: "ReLU"
+    repeat_id: "RepeatStart"
+    input: "Convolution_2"
+    output: "ReLU_2"
+    relu_param {
+      inplace: True
+    }
+  }
+  function {
+    name: "Convolution_3"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "ReLU_2"
+    input: "Convolution_3{RepeatStart}/conv/W"
+    input: "Convolution_3{RepeatStart}/conv/b"
+    output: "Convolution_3"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Reshape_11"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Convolution_3"
+    output: "Reshape_11"
+    reshape_param {
+      shape: { dim: -1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Pad_2"
+    type: "Pad"
+    repeat_id: "RepeatStart"
+    input: "Reshape_11"
+    output: "Pad_2"
+    pad_param {
+      pad_width: 0
+      pad_width: 16
+      pad_width: 0
+      pad_width: 0
+      mode: "constant"
+      constant_value: 0
+    }
+  }
+  function {
+    name: "Add2_2"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "Pad_2"
+    input: "Normalize/Add2_3"
+    output: "Add2_2"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "Normalize_2/Mean"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Add2_2"
+    output: "Normalize_2/Mean"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize_2/Sub2_2"
+    type: "Sub2"
+    repeat_id: "RepeatStart"
+    input: "Add2_2"
+    input: "Normalize_2/Mean"
+    output: "Normalize_2/Sub2_2"
+  }
+  function {
+    name: "Normalize_2/PowScalar"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Sub2_2"
+    output: "Normalize_2/PowScalar"
+    pow_scalar_param {
+      val: 2
+    }
+  }
+  function {
+    name: "Normalize_2/Mean_2"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/PowScalar"
+    output: "Normalize_2/Mean_2"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize_2/PowScalar_2"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Mean_2"
+    output: "Normalize_2/PowScalar_2"
+    pow_scalar_param {
+      val: 0.5
+    }
+  }
+  function {
+    name: "Normalize_2/Div2_2"
+    type: "Div2"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Sub2_2"
+    input: "Normalize_2/PowScalar_2"
+    output: "Normalize_2/Div2_2"
+  }
+  function {
+    name: "Normalize_2/Mul2_3"
+    type: "Mul2"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Div2_2"
+    input: "Normalize_2/Beta"
+    output: "Normalize_2/Mul2_3"
+  }
+  function {
+    name: "Normalize_2/Add2_3"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Mul2_3"
+    input: "Normalize_2/Beta_2"
+    output: "Normalize_2/Add2_3"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "RepeatEnd"
+    type: "RepeatEnd"
+    input: "Normalize_2/Add2_3"
+    output: "RepeatEnd"
+    repeat_param {
+      repeat_id: "RepeatStart"
+      times: 3
+    }
+  }
+  function {
+    name: "Slice_5"
+    type: "Slice"
+    input: "RepeatEnd"
+    output: "Slice_5"
+    slice_param {
+      start: 0
+      start: 0
+      stop: 256
+      stop: 256
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "ReLU_3"
+    type: "ReLU"
+    input: "Slice_5"
+    output: "ReLU_3"
+    relu_param {
+      inplace: True
+    }
+  }
+  function {
+    name: "Dropout"
+    type: "Dropout"
+    input: "ReLU_3"
+    output: "Dropout"
+    dropout_param {
+      p: 0.5
+      seed: -1
+    }
+  }
+  function {
+    name: "Convolution"
+    type: "Convolution"
+    input: "Dropout"
+    input: "Convolution/conv/W"
+    input: "Convolution/conv/b"
+    output: "Convolution"
+    convolution_param {
+      pad: { dim: 0 }
+      stride: { dim: 1 }
+      dilation: { dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Transpose_2"
+    type: "Transpose"
+    input: "Convolution"
+    output: "Transpose_2"
+    transpose_param {
+      axes: 0
+      axes: 2
+      axes: 1
+    }
+  }
+  function {
+    name: "Slice_2"
+    type: "Slice"
+    input: "Transpose_2"
+    output: "Slice_2"
+    slice_param {
+      start: 0
+      start: 0
+      stop: 255
+      stop: 16384
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "SoftmaxCrossEntropy"
+    type: "SoftmaxCrossEntropy"
+    input: "Slice_2"
+    input: "Reshape"
+    output: "SoftmaxCrossEntropy"
+    softmax_cross_entropy_param {
+      axis: 2
+    }
+  }
+}
+network {
+  name: "MainValidation"
+  batch_size: 16
+  repeat_info {
+    id: "RepeatStart"
+    times: 3
+  }
+  variable {
+    name: "Input"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Input_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Input_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Input_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 8 }
+  }
+  variable {
+    name: "Normalize/Beta"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Normalize/Beta_2"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Normalize_2/Beta"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Normalize_2/Beta_2"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Embed/embed/W"
+    type: "Parameter"
+    shape: { dim: 16384 dim: 256 }
+    initializer {
+      type: "Normal"
+      multiplier: 0.0625
+    }
+  }
+  variable {
+    name: "Query{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 272 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Query{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Key{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 272 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Key{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Value{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 256 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Value{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_2{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 256 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_2{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_3{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 256 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_3{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution/conv/W"
+    type: "Parameter"
+    shape: { dim: 16384 dim: 256 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution/conv/b"
+    type: "Parameter"
+    shape: { dim: 16384 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Slice"
+    type: "Buffer"
+    shape: { dim:-1 dim: 255 }
+  }
+  variable {
+    name: "RPowScalar"
+    type: "Buffer"
+    shape: { dim:-1 dim: 8 }
+  }
+  variable {
+    name: "Embed"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Reshape"
+    type: "Buffer"
+    shape: { dim:-1 dim: 255 dim: 1 }
+  }
+  variable {
+    name: "Identity"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Identity_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_8"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 8 }
+  }
+  variable {
+    name: "MulScalar"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_6"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 1 }
+  }
+  variable {
+    name: "Reshape_9"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 1 }
+  }
+  variable {
+    name: "Broadcast"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Broadcast_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Broadcast_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Greater_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Mul2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Sin"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Cos"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Concatenate"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 16 }
+  }
+  variable {
+    name: "Concatenate_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 272 }
+  }
+  variable {
+    name: "Transpose_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "RepeatStart"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Reshape_5"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Query"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Key"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Slice_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "Reshape_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "Value"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Transpose_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 32 }
+  }
+  variable {
+    name: "Reshape_4"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "BatchMatmul"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "MulScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Max"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 1 dim: 1 }
+  }
+  variable {
+    name: "Sub2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Exp"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Mul2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Sum_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "AddScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Div2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "BatchMatmul_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "Reshape_14"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Pad"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Add2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Mean"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Sub2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/PowScalar"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Mean_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize/PowScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Div2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Mul2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Add2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Reshape_10"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Slice_4"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Convolution_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "ReLU_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Convolution_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_11"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Pad_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Add2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Mean"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Sub2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/PowScalar"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Mean_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/PowScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Div2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Mul2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Add2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "RepeatEnd"
+    type: "Buffer"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Slice_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "ReLU_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Convolution"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16384 dim: 256 }
+  }
+  variable {
+    name: "Transpose_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 16384 }
+  }
+  variable {
+    name: "Slice_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 255 dim: 16384 }
+  }
+  variable {
+    name: "SoftmaxCrossEntropy"
+    type: "Buffer"
+    shape: { dim:-1 dim: 255 dim: 1 }
+  }
+  function {
+    name: "Slice"
+    type: "Slice"
+    input: "Input_2"
+    output: "Slice"
+    slice_param {
+      start: 1
+      stop: 256
+      step: 1
+    }
+  }
+  function {
+    name: "RPowScalar"
+    type: "RPowScalar"
+    input: "Input_3"
+    output: "RPowScalar"
+    r_pow_scalar_param {
+      val: 2
+    }
+  }
+  function {
+    name: "Embed"
+    type: "Embed"
+    input: "Input"
+    input: "Embed/embed/W"
+    output: "Embed"
+  }
+  function {
+    name: "Reshape"
+    type: "Reshape"
+    input: "Slice"
+    output: "Reshape"
+    reshape_param {
+      shape: { dim: -1 dim: 255 dim: 1 }
+    }
+  }
+  function {
+    name: "Identity"
+    type: "Identity"
+    input: "Input_4"
+    output: "Identity"
+  }
+  function {
+    name: "Identity_2"
+    type: "Identity"
+    input: "Input_4"
+    output: "Identity_2"
+  }
+  function {
+    name: "Reshape_8"
+    type: "Reshape"
+    input: "RPowScalar"
+    output: "Reshape_8"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 8 }
+    }
+  }
+  function {
+    name: "MulScalar"
+    type: "MulScalar"
+    input: "Input_4"
+    output: "MulScalar"
+    mul_scalar_param {
+      val: 0.02454369260617026
+    }
+  }
+  function {
+    name: "Reshape_6"
+    type: "Reshape"
+    input: "Identity"
+    output: "Reshape_6"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Reshape_7"
+    type: "Reshape"
+    input: "Identity_2"
+    output: "Reshape_7"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 256 dim: 1 }
+    }
+  }
+  function {
+    name: "Reshape_9"
+    type: "Reshape"
+    input: "MulScalar"
+    output: "Reshape_9"
+    reshape_param {
+      shape: { dim: -1 dim: 256 dim: 1 }
+    }
+  }
+  function {
+    name: "Broadcast"
+    type: "Broadcast"
+    input: "Reshape_7"
+    output: "Broadcast"
+    broadcast_param {
+      shape: { dim: -1 dim: 1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Broadcast_2"
+    type: "Broadcast"
+    input: "Reshape_6"
+    output: "Broadcast_2"
+    broadcast_param {
+      shape: { dim: -1 dim: 1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Broadcast_3"
+    type: "Broadcast"
+    input: "Reshape_9"
+    output: "Broadcast_3"
+    broadcast_param {
+      shape: { dim: -1 dim: 256 dim: 8 }
+    }
+  }
+  function {
+    name: "Greater_2"
+    type: "Greater"
+    input: "Broadcast_2"
+    input: "Broadcast"
+    output: "Greater_2"
+  }
+  function {
+    name: "Mul2"
+    type: "Mul2"
+    input: "Broadcast_3"
+    input: "Reshape_8"
+    output: "Mul2"
+  }
+  function {
+    name: "Sin"
+    type: "Sin"
+    input: "Mul2"
+    output: "Sin"
+  }
+  function {
+    name: "Cos"
+    type: "Cos"
+    input: "Mul2"
+    output: "Cos"
+  }
+  function {
+    name: "Concatenate"
+    type: "Concatenate"
+    input: "Sin"
+    input: "Cos"
+    output: "Concatenate"
+    concatenate_param {
+      axis: 2
+    }
+  }
+  function {
+    name: "Concatenate_2"
+    type: "Concatenate"
+    input: "Embed"
+    input: "Concatenate"
+    output: "Concatenate_2"
+    concatenate_param {
+      axis: 2
+    }
+  }
+  function {
+    name: "Transpose_4"
+    type: "Transpose"
+    input: "Concatenate_2"
+    output: "Transpose_4"
+    transpose_param {
+      axes: 0
+      axes: 2
+      axes: 1
+    }
+  }
+  function {
+    name: "RepeatStart"
+    type: "RepeatStart"
+    repeat_id: "RepeatStart"
+    input: "Transpose_4"
+    input: "Normalize_2/Add2_3"
+    output: "RepeatStart"
+    repeat_param {
+      repeat_id: "RepeatStart"
+    }
+  }
+  function {
+    name: "Reshape_5"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "RepeatStart"
+    output: "Reshape_5"
+    reshape_param {
+      shape: { dim: -1 dim: 272 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Query"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Reshape_5"
+    input: "Query{RepeatStart}/conv/W"
+    input: "Query{RepeatStart}/conv/b"
+    output: "Query"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Key"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Reshape_5"
+    input: "Key{RepeatStart}/conv/W"
+    input: "Key{RepeatStart}/conv/b"
+    output: "Key"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Slice_3"
+    type: "Slice"
+    repeat_id: "RepeatStart"
+    input: "Reshape_5"
+    output: "Slice_3"
+    slice_param {
+      start: 0
+      start: 0
+      start: 0
+      stop: 256
+      stop: 1
+      stop: 256
+      step: 1
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "Reshape_2"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Query"
+    output: "Reshape_2"
+    reshape_param {
+      shape: { dim: -1 dim: 8 dim: 32 dim: 256 }
+    }
+  }
+  function {
+    name: "Reshape_3"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Key"
+    output: "Reshape_3"
+    reshape_param {
+      shape: { dim: -1 dim: 8 dim: 32 dim: 256 }
+    }
+  }
+  function {
+    name: "Value"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Slice_3"
+    input: "Value{RepeatStart}/conv/W"
+    input: "Value{RepeatStart}/conv/b"
+    output: "Value"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Transpose_3"
+    type: "Transpose"
+    repeat_id: "RepeatStart"
+    input: "Reshape_2"
+    output: "Transpose_3"
+    transpose_param {
+      axes: 0
+      axes: 1
+      axes: 3
+      axes: 2
+    }
+  }
+  function {
+    name: "Reshape_4"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Value"
+    output: "Reshape_4"
+    reshape_param {
+      shape: { dim: -1 dim: 8 dim: 32 dim: 256 }
+    }
+  }
+  function {
+    name: "BatchMatmul"
+    type: "BatchMatmul"
+    repeat_id: "RepeatStart"
+    input: "Transpose_3"
+    input: "Reshape_3"
+    output: "BatchMatmul"
+  }
+  function {
+    name: "MulScalar_2"
+    type: "MulScalar"
+    repeat_id: "RepeatStart"
+    input: "BatchMatmul"
+    output: "MulScalar_2"
+    mul_scalar_param {
+      val: 0.25
+    }
+  }
+  function {
+    name: "Max"
+    type: "Max"
+    repeat_id: "RepeatStart"
+    input: "MulScalar_2"
+    output: "Max"
+    max_param {
+      axes: 2
+      axes: 3
+      keep_dims: true
+      with_index: false
+      only_index: false
+    }
+  }
+  function {
+    name: "Sub2"
+    type: "Sub2"
+    repeat_id: "RepeatStart"
+    input: "MulScalar_2"
+    input: "Max"
+    output: "Sub2"
+  }
+  function {
+    name: "Exp"
+    type: "Exp"
+    repeat_id: "RepeatStart"
+    input: "Sub2"
+    output: "Exp"
+  }
+  function {
+    name: "Mul2_2"
+    type: "Mul2"
+    repeat_id: "RepeatStart"
+    input: "Exp"
+    input: "Greater_2"
+    output: "Mul2_2"
+  }
+  function {
+    name: "Sum_2"
+    type: "Sum"
+    repeat_id: "RepeatStart"
+    input: "Mul2_2"
+    output: "Sum_2"
+    sum_param {
+      axes: 2
+      keep_dims: true
+    }
+  }
+  function {
+    name: "AddScalar_2"
+    type: "AddScalar"
+    repeat_id: "RepeatStart"
+    input: "Sum_2"
+    output: "AddScalar_2"
+    add_scalar_param {
+      val: 1
+    }
+  }
+  function {
+    name: "Div2"
+    type: "Div2"
+    repeat_id: "RepeatStart"
+    input: "Mul2_2"
+    input: "AddScalar_2"
+    output: "Div2"
+  }
+  function {
+    name: "BatchMatmul_2"
+    type: "BatchMatmul"
+    repeat_id: "RepeatStart"
+    input: "Reshape_4"
+    input: "Div2"
+    output: "BatchMatmul_2"
+  }
+  function {
+    name: "Reshape_14"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "BatchMatmul_2"
+    output: "Reshape_14"
+    reshape_param {
+      shape: { dim: -1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Pad"
+    type: "Pad"
+    repeat_id: "RepeatStart"
+    input: "Reshape_14"
+    output: "Pad"
+    pad_param {
+      pad_width: 0
+      pad_width: 16
+      pad_width: 0
+      pad_width: 0
+      mode: "constant"
+      constant_value: 0
+    }
+  }
+  function {
+    name: "Add2"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "RepeatStart"
+    input: "Pad"
+    output: "Add2"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "Normalize/Mean"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Add2"
+    output: "Normalize/Mean"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize/Sub2_2"
+    type: "Sub2"
+    repeat_id: "RepeatStart"
+    input: "Add2"
+    input: "Normalize/Mean"
+    output: "Normalize/Sub2_2"
+  }
+  function {
+    name: "Normalize/PowScalar"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Sub2_2"
+    output: "Normalize/PowScalar"
+    pow_scalar_param {
+      val: 2
+    }
+  }
+  function {
+    name: "Normalize/Mean_2"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Normalize/PowScalar"
+    output: "Normalize/Mean_2"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize/PowScalar_2"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Mean_2"
+    output: "Normalize/PowScalar_2"
+    pow_scalar_param {
+      val: 0.5
+    }
+  }
+  function {
+    name: "Normalize/Div2_2"
+    type: "Div2"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Sub2_2"
+    input: "Normalize/PowScalar_2"
+    output: "Normalize/Div2_2"
+  }
+  function {
+    name: "Normalize/Mul2_3"
+    type: "Mul2"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Div2_2"
+    input: "Normalize/Beta"
+    output: "Normalize/Mul2_3"
+  }
+  function {
+    name: "Normalize/Add2_3"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Mul2_3"
+    input: "Normalize/Beta_2"
+    output: "Normalize/Add2_3"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "Reshape_10"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Add2_3"
+    output: "Reshape_10"
+    reshape_param {
+      shape: { dim: -1 dim: 272 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Slice_4"
+    type: "Slice"
+    repeat_id: "RepeatStart"
+    input: "Reshape_10"
+    output: "Slice_4"
+    slice_param {
+      start: 0
+      start: 0
+      start: 0
+      stop: 256
+      stop: 1
+      stop: 256
+      step: 1
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "Convolution_2"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Slice_4"
+    input: "Convolution_2{RepeatStart}/conv/W"
+    input: "Convolution_2{RepeatStart}/conv/b"
+    output: "Convolution_2"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "ReLU_2"
+    type: "ReLU"
+    repeat_id: "RepeatStart"
+    input: "Convolution_2"
+    output: "ReLU_2"
+    relu_param {
+      inplace: True
+    }
+  }
+  function {
+    name: "Convolution_3"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "ReLU_2"
+    input: "Convolution_3{RepeatStart}/conv/W"
+    input: "Convolution_3{RepeatStart}/conv/b"
+    output: "Convolution_3"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Reshape_11"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Convolution_3"
+    output: "Reshape_11"
+    reshape_param {
+      shape: { dim: -1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Pad_2"
+    type: "Pad"
+    repeat_id: "RepeatStart"
+    input: "Reshape_11"
+    output: "Pad_2"
+    pad_param {
+      pad_width: 0
+      pad_width: 16
+      pad_width: 0
+      pad_width: 0
+      mode: "constant"
+      constant_value: 0
+    }
+  }
+  function {
+    name: "Add2_2"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "Pad_2"
+    input: "Normalize/Add2_3"
+    output: "Add2_2"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "Normalize_2/Mean"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Add2_2"
+    output: "Normalize_2/Mean"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize_2/Sub2_2"
+    type: "Sub2"
+    repeat_id: "RepeatStart"
+    input: "Add2_2"
+    input: "Normalize_2/Mean"
+    output: "Normalize_2/Sub2_2"
+  }
+  function {
+    name: "Normalize_2/PowScalar"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Sub2_2"
+    output: "Normalize_2/PowScalar"
+    pow_scalar_param {
+      val: 2
+    }
+  }
+  function {
+    name: "Normalize_2/Mean_2"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/PowScalar"
+    output: "Normalize_2/Mean_2"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize_2/PowScalar_2"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Mean_2"
+    output: "Normalize_2/PowScalar_2"
+    pow_scalar_param {
+      val: 0.5
+    }
+  }
+  function {
+    name: "Normalize_2/Div2_2"
+    type: "Div2"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Sub2_2"
+    input: "Normalize_2/PowScalar_2"
+    output: "Normalize_2/Div2_2"
+  }
+  function {
+    name: "Normalize_2/Mul2_3"
+    type: "Mul2"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Div2_2"
+    input: "Normalize_2/Beta"
+    output: "Normalize_2/Mul2_3"
+  }
+  function {
+    name: "Normalize_2/Add2_3"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Mul2_3"
+    input: "Normalize_2/Beta_2"
+    output: "Normalize_2/Add2_3"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "RepeatEnd"
+    type: "RepeatEnd"
+    input: "Normalize_2/Add2_3"
+    output: "RepeatEnd"
+    repeat_param {
+      repeat_id: "RepeatStart"
+      times: 3
+    }
+  }
+  function {
+    name: "Slice_5"
+    type: "Slice"
+    input: "RepeatEnd"
+    output: "Slice_5"
+    slice_param {
+      start: 0
+      start: 0
+      stop: 256
+      stop: 256
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "ReLU_3"
+    type: "ReLU"
+    input: "Slice_5"
+    output: "ReLU_3"
+    relu_param {
+      inplace: True
+    }
+  }
+  function {
+    name: "Convolution"
+    type: "Convolution"
+    input: "ReLU_3"
+    input: "Convolution/conv/W"
+    input: "Convolution/conv/b"
+    output: "Convolution"
+    convolution_param {
+      pad: { dim: 0 }
+      stride: { dim: 1 }
+      dilation: { dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Transpose_2"
+    type: "Transpose"
+    input: "Convolution"
+    output: "Transpose_2"
+    transpose_param {
+      axes: 0
+      axes: 2
+      axes: 1
+    }
+  }
+  function {
+    name: "Slice_2"
+    type: "Slice"
+    input: "Transpose_2"
+    output: "Slice_2"
+    slice_param {
+      start: 0
+      start: 0
+      stop: 255
+      stop: 16384
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "SoftmaxCrossEntropy"
+    type: "SoftmaxCrossEntropy"
+    input: "Slice_2"
+    input: "Reshape"
+    output: "SoftmaxCrossEntropy"
+    softmax_cross_entropy_param {
+      axis: 2
+    }
+  }
+}
+network {
+  name: "Runtime"
+  batch_size: 16
+  repeat_info {
+    id: "RepeatStart"
+    times: 3
+  }
+  variable {
+    name: "Input"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Input_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Input_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 8 }
+  }
+  variable {
+    name: "Input_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 }
+  }
+  variable {
+    name: "Normalize/Beta"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Normalize/Beta_2"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Normalize_2/Beta"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Normalize_2/Beta_2"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 1 dim: 272 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Embed/embed/W"
+    type: "Parameter"
+    shape: { dim: 16384 dim: 256 }
+    initializer {
+      type: "Normal"
+      multiplier: 0.0625
+    }
+  }
+  variable {
+    name: "Query{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 272 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Query{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Key{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 272 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Key{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Value{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 256 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Value{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_2{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 256 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_2{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_3{RepeatStart}/conv/W"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 dim: 256 dim: 1 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_3{RepeatStart}/conv/b"
+    type: "Parameter"
+    repeat_id: "RepeatStart"
+    shape: { dim: 256 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution/conv/W"
+    type: "Parameter"
+    shape: { dim: 16384 dim: 256 dim: 1 }
+    initializer {
+      type: "NormalConvolutionHeBackward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution/conv/b"
+    type: "Parameter"
+    shape: { dim: 16384 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "RPowScalar"
+    type: "Buffer"
+    shape: { dim:-1 dim: 8 }
+  }
+  variable {
+    name: "AddScalar"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 }
+  }
+  variable {
+    name: "Embed"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Identity"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Identity_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_8"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 8 }
+  }
+  variable {
+    name: "MulScalar"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "OneHot"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_6"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 1 }
+  }
+  variable {
+    name: "Reshape_9"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 1 }
+  }
+  variable {
+    name: "Reshape_12"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Broadcast"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Broadcast_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Broadcast_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Greater_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Mul2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Sin"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Cos"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 8 }
+  }
+  variable {
+    name: "Concatenate"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 16 }
+  }
+  variable {
+    name: "Concatenate_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 272 }
+  }
+  variable {
+    name: "Transpose_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "RepeatStart"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Reshape_5"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Query"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Key"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Slice_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "Reshape_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "Value"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Transpose_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 32 }
+  }
+  variable {
+    name: "Reshape_4"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "BatchMatmul"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "MulScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Max"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 1 dim: 1 }
+  }
+  variable {
+    name: "Sub2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Exp"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Mul2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Sum_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "AddScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Div2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "BatchMatmul_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 8 dim: 32 dim: 256 }
+  }
+  variable {
+    name: "Reshape_14"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Pad"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Add2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Mean"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Sub2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/PowScalar"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Mean_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize/PowScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Div2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Mul2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize/Add2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Reshape_10"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Slice_4"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Convolution_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "ReLU_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Convolution_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Reshape_11"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Pad_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Add2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Mean"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Sub2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/PowScalar"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Mean_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/PowScalar_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 1 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Div2_2"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Mul2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Normalize_2/Add2_3"
+    type: "Buffer"
+    repeat_id: "RepeatStart"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "RepeatEnd"
+    type: "Buffer"
+    shape: { dim:-1 dim: 272 dim: 256 }
+  }
+  variable {
+    name: "Slice_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "ReLU_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Mul2_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 256 }
+  }
+  variable {
+    name: "Sum"
+    type: "Buffer"
+    shape: { dim:-1 dim: 256 dim: 1 }
+  }
+  variable {
+    name: "Convolution2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16384 dim: 1 }
+  }
+  variable {
+    name: "Reshape_13"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16384 }
+  }
+  variable {
+    name: "Softmax_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16384 }
+  }
+  function {
+    name: "RPowScalar"
+    type: "RPowScalar"
+    input: "Input_3"
+    output: "RPowScalar"
+    r_pow_scalar_param {
+      val: 2
+    }
+  }
+  function {
+    name: "AddScalar"
+    type: "AddScalar"
+    input: "Input_5"
+    output: "AddScalar"
+    add_scalar_param {
+      val: -1
+    }
+  }
+  function {
+    name: "Embed"
+    type: "Embed"
+    input: "Input"
+    input: "Embed/embed/W"
+    output: "Embed"
+  }
+  function {
+    name: "Identity"
+    type: "Identity"
+    input: "Input_4"
+    output: "Identity"
+  }
+  function {
+    name: "Identity_2"
+    type: "Identity"
+    input: "Input_4"
+    output: "Identity_2"
+  }
+  function {
+    name: "Reshape_8"
+    type: "Reshape"
+    input: "RPowScalar"
+    output: "Reshape_8"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 8 }
+    }
+  }
+  function {
+    name: "MulScalar"
+    type: "MulScalar"
+    input: "Input_4"
+    output: "MulScalar"
+    mul_scalar_param {
+      val: 0.02454369260617026
+    }
+  }
+  function {
+    name: "OneHot"
+    type: "OneHot"
+    input: "AddScalar"
+    output: "OneHot"
+    one_hot_param {
+      shape: { dim: 256 }
+    }
+  }
+  function {
+    name: "Reshape_6"
+    type: "Reshape"
+    input: "Identity"
+    output: "Reshape_6"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Reshape_7"
+    type: "Reshape"
+    input: "Identity_2"
+    output: "Reshape_7"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 256 dim: 1 }
+    }
+  }
+  function {
+    name: "Reshape_9"
+    type: "Reshape"
+    input: "MulScalar"
+    output: "Reshape_9"
+    reshape_param {
+      shape: { dim: -1 dim: 256 dim: 1 }
+    }
+  }
+  function {
+    name: "Reshape_12"
+    type: "Reshape"
+    input: "OneHot"
+    output: "Reshape_12"
+    reshape_param {
+      shape: { dim: -1 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Broadcast"
+    type: "Broadcast"
+    input: "Reshape_7"
+    output: "Broadcast"
+    broadcast_param {
+      shape: { dim: -1 dim: 1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Broadcast_2"
+    type: "Broadcast"
+    input: "Reshape_6"
+    output: "Broadcast_2"
+    broadcast_param {
+      shape: { dim: -1 dim: 1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Broadcast_3"
+    type: "Broadcast"
+    input: "Reshape_9"
+    output: "Broadcast_3"
+    broadcast_param {
+      shape: { dim: -1 dim: 256 dim: 8 }
+    }
+  }
+  function {
+    name: "Greater_2"
+    type: "Greater"
+    input: "Broadcast_2"
+    input: "Broadcast"
+    output: "Greater_2"
+  }
+  function {
+    name: "Mul2"
+    type: "Mul2"
+    input: "Broadcast_3"
+    input: "Reshape_8"
+    output: "Mul2"
+  }
+  function {
+    name: "Sin"
+    type: "Sin"
+    input: "Mul2"
+    output: "Sin"
+  }
+  function {
+    name: "Cos"
+    type: "Cos"
+    input: "Mul2"
+    output: "Cos"
+  }
+  function {
+    name: "Concatenate"
+    type: "Concatenate"
+    input: "Sin"
+    input: "Cos"
+    output: "Concatenate"
+    concatenate_param {
+      axis: 2
+    }
+  }
+  function {
+    name: "Concatenate_2"
+    type: "Concatenate"
+    input: "Embed"
+    input: "Concatenate"
+    output: "Concatenate_2"
+    concatenate_param {
+      axis: 2
+    }
+  }
+  function {
+    name: "Transpose_4"
+    type: "Transpose"
+    input: "Concatenate_2"
+    output: "Transpose_4"
+    transpose_param {
+      axes: 0
+      axes: 2
+      axes: 1
+    }
+  }
+  function {
+    name: "RepeatStart"
+    type: "RepeatStart"
+    repeat_id: "RepeatStart"
+    input: "Transpose_4"
+    input: "Normalize_2/Add2_3"
+    output: "RepeatStart"
+    repeat_param {
+      repeat_id: "RepeatStart"
+    }
+  }
+  function {
+    name: "Reshape_5"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "RepeatStart"
+    output: "Reshape_5"
+    reshape_param {
+      shape: { dim: -1 dim: 272 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Query"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Reshape_5"
+    input: "Query{RepeatStart}/conv/W"
+    input: "Query{RepeatStart}/conv/b"
+    output: "Query"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Key"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Reshape_5"
+    input: "Key{RepeatStart}/conv/W"
+    input: "Key{RepeatStart}/conv/b"
+    output: "Key"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Slice_3"
+    type: "Slice"
+    repeat_id: "RepeatStart"
+    input: "Reshape_5"
+    output: "Slice_3"
+    slice_param {
+      start: 0
+      start: 0
+      start: 0
+      stop: 256
+      stop: 1
+      stop: 256
+      step: 1
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "Reshape_2"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Query"
+    output: "Reshape_2"
+    reshape_param {
+      shape: { dim: -1 dim: 8 dim: 32 dim: 256 }
+    }
+  }
+  function {
+    name: "Reshape_3"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Key"
+    output: "Reshape_3"
+    reshape_param {
+      shape: { dim: -1 dim: 8 dim: 32 dim: 256 }
+    }
+  }
+  function {
+    name: "Value"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Slice_3"
+    input: "Value{RepeatStart}/conv/W"
+    input: "Value{RepeatStart}/conv/b"
+    output: "Value"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Transpose_3"
+    type: "Transpose"
+    repeat_id: "RepeatStart"
+    input: "Reshape_2"
+    output: "Transpose_3"
+    transpose_param {
+      axes: 0
+      axes: 1
+      axes: 3
+      axes: 2
+    }
+  }
+  function {
+    name: "Reshape_4"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Value"
+    output: "Reshape_4"
+    reshape_param {
+      shape: { dim: -1 dim: 8 dim: 32 dim: 256 }
+    }
+  }
+  function {
+    name: "BatchMatmul"
+    type: "BatchMatmul"
+    repeat_id: "RepeatStart"
+    input: "Transpose_3"
+    input: "Reshape_3"
+    output: "BatchMatmul"
+  }
+  function {
+    name: "MulScalar_2"
+    type: "MulScalar"
+    repeat_id: "RepeatStart"
+    input: "BatchMatmul"
+    output: "MulScalar_2"
+    mul_scalar_param {
+      val: 0.25
+    }
+  }
+  function {
+    name: "Max"
+    type: "Max"
+    repeat_id: "RepeatStart"
+    input: "MulScalar_2"
+    output: "Max"
+    max_param {
+      axes: 2
+      axes: 3
+      keep_dims: true
+      with_index: false
+      only_index: false
+    }
+  }
+  function {
+    name: "Sub2"
+    type: "Sub2"
+    repeat_id: "RepeatStart"
+    input: "MulScalar_2"
+    input: "Max"
+    output: "Sub2"
+  }
+  function {
+    name: "Exp"
+    type: "Exp"
+    repeat_id: "RepeatStart"
+    input: "Sub2"
+    output: "Exp"
+  }
+  function {
+    name: "Mul2_2"
+    type: "Mul2"
+    repeat_id: "RepeatStart"
+    input: "Exp"
+    input: "Greater_2"
+    output: "Mul2_2"
+  }
+  function {
+    name: "Sum_2"
+    type: "Sum"
+    repeat_id: "RepeatStart"
+    input: "Mul2_2"
+    output: "Sum_2"
+    sum_param {
+      axes: 2
+      keep_dims: true
+    }
+  }
+  function {
+    name: "AddScalar_2"
+    type: "AddScalar"
+    repeat_id: "RepeatStart"
+    input: "Sum_2"
+    output: "AddScalar_2"
+    add_scalar_param {
+      val: 1
+    }
+  }
+  function {
+    name: "Div2"
+    type: "Div2"
+    repeat_id: "RepeatStart"
+    input: "Mul2_2"
+    input: "AddScalar_2"
+    output: "Div2"
+  }
+  function {
+    name: "BatchMatmul_2"
+    type: "BatchMatmul"
+    repeat_id: "RepeatStart"
+    input: "Reshape_4"
+    input: "Div2"
+    output: "BatchMatmul_2"
+  }
+  function {
+    name: "Reshape_14"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "BatchMatmul_2"
+    output: "Reshape_14"
+    reshape_param {
+      shape: { dim: -1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Pad"
+    type: "Pad"
+    repeat_id: "RepeatStart"
+    input: "Reshape_14"
+    output: "Pad"
+    pad_param {
+      pad_width: 0
+      pad_width: 16
+      pad_width: 0
+      pad_width: 0
+      mode: "constant"
+      constant_value: 0
+    }
+  }
+  function {
+    name: "Add2"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "RepeatStart"
+    input: "Pad"
+    output: "Add2"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "Normalize/Mean"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Add2"
+    output: "Normalize/Mean"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize/Sub2_2"
+    type: "Sub2"
+    repeat_id: "RepeatStart"
+    input: "Add2"
+    input: "Normalize/Mean"
+    output: "Normalize/Sub2_2"
+  }
+  function {
+    name: "Normalize/PowScalar"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Sub2_2"
+    output: "Normalize/PowScalar"
+    pow_scalar_param {
+      val: 2
+    }
+  }
+  function {
+    name: "Normalize/Mean_2"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Normalize/PowScalar"
+    output: "Normalize/Mean_2"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize/PowScalar_2"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Mean_2"
+    output: "Normalize/PowScalar_2"
+    pow_scalar_param {
+      val: 0.5
+    }
+  }
+  function {
+    name: "Normalize/Div2_2"
+    type: "Div2"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Sub2_2"
+    input: "Normalize/PowScalar_2"
+    output: "Normalize/Div2_2"
+  }
+  function {
+    name: "Normalize/Mul2_3"
+    type: "Mul2"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Div2_2"
+    input: "Normalize/Beta"
+    output: "Normalize/Mul2_3"
+  }
+  function {
+    name: "Normalize/Add2_3"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Mul2_3"
+    input: "Normalize/Beta_2"
+    output: "Normalize/Add2_3"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "Reshape_10"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Normalize/Add2_3"
+    output: "Reshape_10"
+    reshape_param {
+      shape: { dim: -1 dim: 272 dim: 1 dim: 256 }
+    }
+  }
+  function {
+    name: "Slice_4"
+    type: "Slice"
+    repeat_id: "RepeatStart"
+    input: "Reshape_10"
+    output: "Slice_4"
+    slice_param {
+      start: 0
+      start: 0
+      start: 0
+      stop: 256
+      stop: 1
+      stop: 256
+      step: 1
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "Convolution_2"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "Slice_4"
+    input: "Convolution_2{RepeatStart}/conv/W"
+    input: "Convolution_2{RepeatStart}/conv/b"
+    output: "Convolution_2"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "ReLU_2"
+    type: "ReLU"
+    repeat_id: "RepeatStart"
+    input: "Convolution_2"
+    output: "ReLU_2"
+    relu_param {
+      inplace: True
+    }
+  }
+  function {
+    name: "Convolution_3"
+    type: "Convolution"
+    repeat_id: "RepeatStart"
+    input: "ReLU_2"
+    input: "Convolution_3{RepeatStart}/conv/W"
+    input: "Convolution_3{RepeatStart}/conv/b"
+    output: "Convolution_3"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Reshape_11"
+    type: "Reshape"
+    repeat_id: "RepeatStart"
+    input: "Convolution_3"
+    output: "Reshape_11"
+    reshape_param {
+      shape: { dim: -1 dim: 256 dim: 256 }
+    }
+  }
+  function {
+    name: "Pad_2"
+    type: "Pad"
+    repeat_id: "RepeatStart"
+    input: "Reshape_11"
+    output: "Pad_2"
+    pad_param {
+      pad_width: 0
+      pad_width: 16
+      pad_width: 0
+      pad_width: 0
+      mode: "constant"
+      constant_value: 0
+    }
+  }
+  function {
+    name: "Add2_2"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "Pad_2"
+    input: "Normalize/Add2_3"
+    output: "Add2_2"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "Normalize_2/Mean"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Add2_2"
+    output: "Normalize_2/Mean"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize_2/Sub2_2"
+    type: "Sub2"
+    repeat_id: "RepeatStart"
+    input: "Add2_2"
+    input: "Normalize_2/Mean"
+    output: "Normalize_2/Sub2_2"
+  }
+  function {
+    name: "Normalize_2/PowScalar"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Sub2_2"
+    output: "Normalize_2/PowScalar"
+    pow_scalar_param {
+      val: 2
+    }
+  }
+  function {
+    name: "Normalize_2/Mean_2"
+    type: "Mean"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/PowScalar"
+    output: "Normalize_2/Mean_2"
+    mean_param {
+      axes: 1
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Normalize_2/PowScalar_2"
+    type: "PowScalar"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Mean_2"
+    output: "Normalize_2/PowScalar_2"
+    pow_scalar_param {
+      val: 0.5
+    }
+  }
+  function {
+    name: "Normalize_2/Div2_2"
+    type: "Div2"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Sub2_2"
+    input: "Normalize_2/PowScalar_2"
+    output: "Normalize_2/Div2_2"
+  }
+  function {
+    name: "Normalize_2/Mul2_3"
+    type: "Mul2"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Div2_2"
+    input: "Normalize_2/Beta"
+    output: "Normalize_2/Mul2_3"
+  }
+  function {
+    name: "Normalize_2/Add2_3"
+    type: "Add2"
+    repeat_id: "RepeatStart"
+    input: "Normalize_2/Mul2_3"
+    input: "Normalize_2/Beta_2"
+    output: "Normalize_2/Add2_3"
+    add2_param {
+      inplace: False
+    }
+  }
+  function {
+    name: "RepeatEnd"
+    type: "RepeatEnd"
+    input: "Normalize_2/Add2_3"
+    output: "RepeatEnd"
+    repeat_param {
+      repeat_id: "RepeatStart"
+      times: 3
+    }
+  }
+  function {
+    name: "Slice_5"
+    type: "Slice"
+    input: "RepeatEnd"
+    output: "Slice_5"
+    slice_param {
+      start: 0
+      start: 0
+      stop: 256
+      stop: 256
+      step: 1
+      step: 1
+    }
+  }
+  function {
+    name: "ReLU_3"
+    type: "ReLU"
+    input: "Slice_5"
+    output: "ReLU_3"
+    relu_param {
+      inplace: True
+    }
+  }
+  function {
+    name: "Mul2_4"
+    type: "Mul2"
+    input: "Reshape_12"
+    input: "ReLU_3"
+    output: "Mul2_4"
+  }
+  function {
+    name: "Sum"
+    type: "Sum"
+    input: "Mul2_4"
+    output: "Sum"
+    sum_param {
+      axes: 2
+      keep_dims: true
+    }
+  }
+  function {
+    name: "Convolution2"
+    type: "Convolution"
+    input: "Sum"
+    input: "Convolution/conv/W"
+    input: "Convolution/conv/b"
+    output: "Convolution2"
+    convolution_param {
+      pad: { dim: 0 }
+      stride: { dim: 1 }
+      dilation: { dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Reshape_13"
+    type: "Reshape"
+    input: "Convolution2"
+    output: "Reshape_13"
+    reshape_param {
+      shape: { dim: -1 dim: 16384 }
+    }
+  }
+  function {
+    name: "Softmax_2"
+    type: "Softmax"
+    input: "Reshape_13"
+    output: "Softmax_2"
+    softmax_param {
+      axis: 1
+    }
+  }
+}
+dataset {
+  name: "Training"
+  uri: "C:\\Users\\User\\Downloads\\neural_network_console\\samples\\sample_dataset\\NLP\\Classification\\20newsgroups\\20newsgroups_test.csv"
+  cache_dir: "C:\\Users\\User\\Downloads\\neural_network_console\\samples\\sample_dataset\\NLP\\Classification\\20newsgroups\\20newsgroups_test.cache"
+  overwrite_cache: false
+  create_cache_explicitly: true
+  shuffle: true
+  no_image_normalization: false
+  batch_size: 16
+}
+dataset {
+  name: "Validation"
+  uri: "C:\\Users\\User\\Downloads\\neural_network_console\\samples\\sample_dataset\\NLP\\Classification\\20newsgroups\\20newsgroups_train.csv"
+  cache_dir: "C:\\Users\\User\\Downloads\\neural_network_console\\samples\\sample_dataset\\NLP\\Classification\\20newsgroups\\20newsgroups_train.cache"
+  overwrite_cache: false
+  create_cache_explicitly: true
+  shuffle: false
+  no_image_normalization: false
+  batch_size: 16
+}
+optimizer {
+  start_iter: 0
+  end_iter: 0
+  name: "Optimizer"
+  update_interval: 4
+  network_name: "Main"
+  dataset_name: "Training"
+  solver {
+    type: "AdamW"
+    weight_decay: 0
+    adamw_param {
+      alpha: 0.001
+      beta1: 0.9
+      beta2: 0.999
+      eps: 1e-08
+      wd: 0.0001
+    }
+    lr_scheduler_type: "Cosine"
+    cosine_scheduler_param {
+      max_iter: 4700
+    }
+    lr_warmup_scheduler_type: "None"
+  }
+  data_variable {
+    variable_name: "Input"
+    data_name: "x"
+  }
+  data_variable {
+    variable_name: "Input_2"
+    data_name: "x"
+  }
+  generator_variable {
+    variable_name: "Input_4"
+    type: "Range"
+    multiplier: 1
+  }
+  generator_variable {
+    variable_name: "Input_3"
+    type: "Range"
+    multiplier: 1
+  }
+  loss_variable {
+    variable_name: "SoftmaxCrossEntropy"
+  }
+  parameter_variable {
+    variable_name: "Normalize/Beta"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Normalize/Beta_2"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Normalize_2/Beta"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Normalize_2/Beta_2"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Embed/embed/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Query{RepeatStart}/conv/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Query{RepeatStart}/conv/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Key{RepeatStart}/conv/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Key{RepeatStart}/conv/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Value{RepeatStart}/conv/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Value{RepeatStart}/conv/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Convolution_2{RepeatStart}/conv/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Convolution_2{RepeatStart}/conv/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Convolution_3{RepeatStart}/conv/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Convolution_3{RepeatStart}/conv/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Convolution/conv/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Convolution/conv/b"
+    learning_rate_multiplier: 1
+  }
+}
+monitor {
+  name: "train_error"
+  network_name: "MainValidation"
+  dataset_name: "Training"
+  data_variable {
+    variable_name: "Input"
+    data_name: "x"
+  }
+  data_variable {
+    variable_name: "Input_2"
+    data_name: "x"
+  }
+  generator_variable {
+    variable_name: "Input_4"
+    type: "Range"
+    multiplier: 1
+  }
+  generator_variable {
+    variable_name: "Input_3"
+    type: "Range"
+    multiplier: 1
+  }
+  monitor_variable {
+    type: "Error"
+    variable_name: "SoftmaxCrossEntropy"
+  }
+}
+monitor {
+  name: "valid_error"
+  network_name: "MainValidation"
+  dataset_name: "Validation"
+  data_variable {
+    variable_name: "Input"
+    data_name: "x"
+  }
+  data_variable {
+    variable_name: "Input_2"
+    data_name: "x"
+  }
+  generator_variable {
+    variable_name: "Input_4"
+    type: "Range"
+    multiplier: 1
+  }
+  generator_variable {
+    variable_name: "Input_3"
+    type: "Range"
+    multiplier: 1
+  }
+  monitor_variable {
+    type: "Error"
+    variable_name: "SoftmaxCrossEntropy"
+  }
+}
+executor {
+  name: "Executor"
+  network_name: "Runtime"
+  num_evaluations: 1
+  repeat_evaluation_type: "mean"
+  need_back_propagation: false
+  no_image_normalization: false
+  data_variable {
+    variable_name: "Input"
+    data_name: "x"
+  }
+  generator_variable {
+    variable_name: "Input_4"
+    type: "Range"
+    multiplier: 1
+  }
+  generator_variable {
+    variable_name: "Input_3"
+    type: "Range"
+    multiplier: 1
+  }
+  data_variable {
+    variable_name: "Input_5"
+    data_name: "l"
+  }
+  output_variable {
+    variable_name: "Softmax_2"
+    data_name: "Softmax_2"
+  }
+  parameter_variable {
+    variable_name: "Normalize/Beta"
+  }
+  parameter_variable {
+    variable_name: "Normalize/Beta_2"
+  }
+  parameter_variable {
+    variable_name: "Normalize_2/Beta"
+  }
+  parameter_variable {
+    variable_name: "Normalize_2/Beta_2"
+  }
+  parameter_variable {
+    variable_name: "Embed/embed/W"
+  }
+  parameter_variable {
+    variable_name: "Query{RepeatStart}/conv/W"
+  }
+  parameter_variable {
+    variable_name: "Query{RepeatStart}/conv/b"
+  }
+  parameter_variable {
+    variable_name: "Key{RepeatStart}/conv/W"
+  }
+  parameter_variable {
+    variable_name: "Key{RepeatStart}/conv/b"
+  }
+  parameter_variable {
+    variable_name: "Value{RepeatStart}/conv/W"
+  }
+  parameter_variable {
+    variable_name: "Value{RepeatStart}/conv/b"
+  }
+  parameter_variable {
+    variable_name: "Convolution_2{RepeatStart}/conv/W"
+  }
+  parameter_variable {
+    variable_name: "Convolution_2{RepeatStart}/conv/b"
+  }
+  parameter_variable {
+    variable_name: "Convolution_3{RepeatStart}/conv/W"
+  }
+  parameter_variable {
+    variable_name: "Convolution_3{RepeatStart}/conv/b"
+  }
+  parameter_variable {
+    variable_name: "Convolution/conv/W"
+  }
+  parameter_variable {
+    variable_name: "Convolution/conv/b"
+  }
+}

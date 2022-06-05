@@ -1,0 +1,10 @@
+2022-06-04 16:40:17,493 Training process is started.
+python "C:\Users\User\Downloads\neural_network_console\libs\Python\Lib\site-packages\nnabla\utils\cli\cli.py" train
+	-c "C:\Users\User\Downloads\20newsgroups_transformer_language_model.files\20220604_164017\net.nntxt"
+	-o "C:\Users\User\Downloads\20newsgroups_transformer_language_model.files\20220604_164017"
+2022-06-04 16:40:20,994 [nnabla]: [CALLBACK]: Exec NNabla on local
+2022-06-04 16:40:21,141 [nnabla]: Using context "Context(backend=['cpu:float'], array_class='CpuCachedArray', device_id='')"
+2022-06-04 16:40:21,853 [nnabla]: Train with contexts ['cpu']
+2022-06-04 16:40:21,935 [nnabla]: Training epoch 1 of 30 begin
+2022-06-04 16:40:21,935 [nnabla]: ctx passed to scheduler doesn't have cuda/cudnn backend. lms scheduler will not be used.
+2022-06-04 16:40:21,935 [nnabla]: ctx passed to scheduler doesn't have cuda/cudnn backend. lms scheduler will not be used.
